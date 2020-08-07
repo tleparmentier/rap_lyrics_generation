@@ -28,20 +28,20 @@ def return_text_cleaned(text: str):
     text = text.replace("!", " ")
     text = text.replace('’', " ")
     text = text.replace(";", " ")
-    text = text.replace("1", "un")
-    text = text.replace("0", "zéro")
-    text = text.replace("3", "trois")
-    text = text.replace("2", "deux")
+    text = text.replace("1", " un ")
+    text = text.replace("0", " zéro ")
+    text = text.replace("3", " trois ")
+    text = text.replace("2", " deux ")
     text = text.replace(":", " ")
-    text = text.replace("7", "sept")
+    text = text.replace("7", " sept ")
     text = text.replace("&", "et")
-    text = text.replace("6", "six")
+    text = text.replace("6", " six ")
     text = text.replace("×", " ")
-    text = text.replace("4", "quatre")
-    text = text.replace("9", "neuf")
+    text = text.replace("4", " quatre ")
+    text = text.replace("9", " neuf ")
     text = text.replace("#", " ")
     text = text.replace("*", " ")
-    text = text.replace("5", "cinq")
+    text = text.replace("5", " cinq ")
     text = text.replace("«", " ")
     text = text.replace("»", " ")
     text = text.replace("…", " ")
@@ -56,7 +56,8 @@ def return_text_cleaned(text: str):
     text = text.replace("”", " ")
     text = text.replace("$", " ")
     text = text.replace("\xa0", " ")
-    text = text.replace("8", "huit")
+    text = text.replace("8", " huit ")
+    text = text.replace("¡", " ")
     text = text.replace("  ", " ")
     text = text.replace("  ", " ")
     text = text.replace("  ", " ")
@@ -238,7 +239,13 @@ def transform_mot_to_phonetique(mot):
     mot = mot.replace('ô', 'o')
     mot = mot.replace('â', 'a')
     mot = mot.replace("ê", "è")
-    mot = mot.replace("œ", "ê")
+    mot = mot.replace("œ", "oe")
+    mot = mot.replace("î", "i")
+    mot = mot.replace("á", "a")
+
+
+    if mot == "où":
+        mot = "û"
     if mot == 'bbc':
         mot = "barbêciû"
     if mot == "est":
@@ -270,7 +277,7 @@ def transform_mot_to_phonetique(mot):
     mot = mot.replace("aina", 'èna')
     mot = mot.replace("aini", 'èni')
 
-    mot = mot.replace("ain", '1')
+
 
     mot = mot.replace("ouill", 'ûy')
     mot = mot.replace("ouil", "ûy")
@@ -290,6 +297,16 @@ def transform_mot_to_phonetique(mot):
     mot = mot.replace("ell", 'èl')
     mot = mot.replace("ll", 'l')
     mot.replace("aint", "1")
+    mot = mot.replace("ain", '1')
+
+    for voyelle in ["a", "e", "i", "o", "u", "è", "é", "ô", "ö", "û", "h", "y"]:
+        mot = mot.replace("in" + voyelle, "*" + voyelle)
+
+    mot = mot.replace("ein", "1")
+    mot = mot.replace("in", "1")
+    mot = mot.replace("*", "in")
+    mot = mot.replace("ein", "èn")
+
 
     mot = mot.replace('iment', 'imâ')
     mot = mot.replace('mment', 'mâ')
@@ -302,10 +319,11 @@ def transform_mot_to_phonetique(mot):
         mot[-1] = "é"
         mot = ''.join(mot)
         terminaison_not_removed = False
-    if "s" in mot:
+    if "s" in mot and len(mot)> 1:
         mot = replace_s(mot)
 
     mot = mot.replace('ce', 'se')
+    mot = mot.replace('c1', 's1')
     mot = mot.replace('ci', 'si')
     mot = mot.replace('cé', 'sé')
     mot = mot.replace('cè', 'sè')
@@ -375,18 +393,18 @@ def transform_mot_to_phonetique(mot):
 
     mot = mot.replace("ont", "öt")
 
-    for voyelle in ["a", "e", "i", "o", "u", "è", "é", "ô", "ö", "û", "h", "y"]:
+    for voyelle in ["a", "e", "i", "o", "u", "è", "é", "ô", "ö", "û", "h", "y","n"]:
         mot = mot.replace("on" + voyelle, "øn" + voyelle)
 
     mot = mot.replace("on", "ö")
     mot = mot.replace("ø", "o")
 
-    for voyelle in ["a", "e", "i", "o", "u", "è", "é", "ô", "ö", "û", "h", "y"]:
+    for voyelle in ["a", "e", "i", "o", "u", "è", "é", "ô", "ö", "û", "h", "y","œ","ê","n"]:
         mot = mot.replace("an" + voyelle, "ãn" + voyelle)
     mot = mot.replace("an", "â")
     mot = mot.replace("ã", "a")
 
-    for voyelle in ["a", "e", "i", "o", "u", "è", "é", "ô", "ö", "û", "h", "y"]:
+    for voyelle in ["a", "e", "i", "o", "u", "è", "é", "ô", "ö", "û", "h", "y","n"]:
         mot = mot.replace("am" + voyelle, "ãm" + voyelle)
 
     mot = mot.replace("am", "â")
@@ -397,6 +415,13 @@ def transform_mot_to_phonetique(mot):
 
     mot = mot.replace("ein", "1")
     mot = mot.replace("*", "ein")
+
+    for voyelle in ["a", "e", "i", "o", "u", "è", "é", "ô", "ö", "û", "h", "y","m"]:
+        mot = mot.replace("om" + voyelle, "*" + voyelle)
+
+    mot = mot.replace("om", "ö")
+    mot = mot.replace("*", "om")
+
 
     mot = mot.replace("mm", "m")
     mot = mot.replace("bb", "b")
@@ -424,9 +449,35 @@ def transform_mot_to_phonetique(mot):
     mot = mot.replace('*', 'im')
 
     mot = mot.replace('ç', 's')
+    mot = mot.replace('ï', 'i')
+
+    mot = mot.replace('à', 'a')
+    mot = mot.replace("q", "k")
+    mot = mot.replace("ff", "f")
+    mot = mot.replace("sêy", "kêy")
+    mot = mot.replace("oeil", "êy")
+    mot = mot.replace("zooooooooo", "zo")
+    mot = mot.replace("oooohooohooo","o")
+    mot = mot.replace("ohhhhooohhhhoooo", "o")
+    mot = mot.replace("oooohooohooo", "o")
+    mot = mot.replace("oooohooohooo", "o")
+    mot = mot.replace("oooohooohooo", "o")
+    mot = mot.replace("oooohooohooo", "o")
+
+
 
     if len(mot) > 1:
         if mot[-1] == "e":
             mot = mot[:-1]
 
     return mot
+
+
+def find_voyelle_in_phonetique(mot):
+    voyelles_in_word =[]
+    for lettre in mot:
+        if lettre in ["a", 'â', "e", "i", "o", "u", "è", "é", "ô", "ö", "û", "ê","ä","1"]:
+            voyelles_in_word.append(lettre)
+
+    return voyelles_in_word
+

@@ -6816,7 +6816,7 @@ Nan, les braves gens n'aiment pas que
 
 L'on suive une autre route qu'eux			NEW_SONG_123
 
-				Ecrire c’est .. Pffouu .. MAnnotateagique
+				Ecrire c’est .. Pffouu ..
 
 Quand j’ai commencé a écrire
 
@@ -23506,7 +23506,7 @@ J'avais la dalle d'un jeune rom, j'inventais des jeux d'rôles
 Maintenant je vis mes rêves comme si j'avais invoqué Shenron
 Choisis bien ton chemin, sans chômé
 Putain c'est chan-mé, j'me voyais pas devenir show-man
-Je vis ma vie comme un shōnen
+Je vis ma vie comme un shonen
 Les vaines souffrances humaines, t'emmènent de longues semaines au lit
 
 On veut même s'ouvrir les veines, mais vaut mieux jamais le dire
@@ -23515,12 +23515,6 @@ Les souvenirs qu'on aime et qui pêle-mêle, se mêlent au disque
 Et même mes ennemis s'en apercevront
 Moi j'suis comme Goku, j'ai le coeur souffrant
 
-[Crystal Kay]
-Nando demo tachi agare
-Me no mae no ime wo tsuku me
-Kujikesō ni nanta ndara
-Omoidase
-Kimi wa hitori ja nai
 
 
 [Nekfeu]
