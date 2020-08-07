@@ -69,3 +69,364 @@ def return_text_cleaned(text: str):
     text = text.replace("  ", " ")
 
     return text.strip()
+
+
+def return_syllabes(mot):
+    tab_syllabes_to_return = []
+    syllabe = ""
+    list_voyelles = ["a", "ä", "à", 'á', "e", "ê", "è", "i", "î", "o", "ô", "u", "ù", "é", "ï"]
+    list_voyelles_non_phonetique = ["a", "ä", "à", 'á', "e", "ê", "è", "i", "î", "o", "ô", "u", "ù"]
+    list_voyelles_phonetique = ["é", "ï"]
+    len_mot = len(mot)
+    num_syllabe = 0
+    last_lettre_type = None
+    for index, lettre in enumerate(mot):
+
+        # On s'occupe de la dernière lettre
+        if index == len_mot - 1:
+            if lettre in list_voyelles_phonetique:
+                if last_lettre_type == "consonne":
+                    syllabe += lettre
+                    tab_syllabes_to_return.append(syllabe)
+                    syllabe = ""
+                else:
+                    tab_syllabes_to_return.append(syllabe)
+                    syllabe = lettre
+            else:
+                syllabe = syllabe + lettre
+        else:
+            if lettre in list_voyelles_non_phonetique:
+                syllabe = syllabe + lettre
+                last_lettre_type = "voyelle"
+
+            elif lettre not in list_voyelles_phonetique:
+                if syllabe != "":
+                    if len(syllabe) == 1 and num_syllabe > 0 and syllabe not in list_voyelles:
+
+                        tab_syllabes_to_return[num_syllabe - 1] += syllabe
+
+                    elif len(syllabe) == 1 and num_syllabe == 0 and syllabe not in list_voyelles_non_phonetique:
+
+                        lettre = syllabe + lettre
+                    else:
+
+                        tab_syllabes_to_return.append(syllabe)
+                        num_syllabe += 1
+                syllabe = lettre
+                last_lettre_type = "consonne"
+
+            else:
+
+                if last_lettre_type == "consonne":
+                    syllabe += lettre
+
+                    tab_syllabes_to_return.append(syllabe)
+                    num_syllabe += 1
+                    syllabe = ""
+                else:
+
+                    tab_syllabes_to_return.append(syllabe)
+                    num_syllabe += 1
+                    syllabe = lettre
+
+                last_lettre_type = "voyelle_phonetique"
+
+        if len_mot == index + 1:
+            is_voyelle_in_last_syllabe = False
+            for lettre_derniere_syllabe in syllabe:
+                if lettre_derniere_syllabe in list_voyelles:
+                    is_voyelle_in_last_syllabe = True
+            if is_voyelle_in_last_syllabe:
+                tab_syllabes_to_return.append(syllabe)
+
+            elif num_syllabe >= 1:
+                tab_syllabes_to_return[-1] += syllabe
+    return tab_syllabes_to_return
+
+
+
+
+
+
+def return_voyelles_a_la_suite(mot):
+    list_voyelles_dans_le_mot = []
+    list_voyelles = ["a", "ä", "à", 'á', "e", "ê", "è", "i", "î", "o", "ô", "u", "ù", "é", "ï"]
+    list_voyelles_non_phonetique = ["a", "ä", "à", 'á', "e", "ê", "è", "i", "î", "o", "ô", "u", "ù"]
+    list_voyelles_phonetique = ["é", "ï"]
+    serie_de_voyelle = ""
+    for lettre in mot:
+        if lettre in list_voyelles:
+            serie_de_voyelle += lettre
+        else:
+            if serie_de_voyelle != "":
+                list_voyelles_dans_le_mot.append(serie_de_voyelle)
+            serie_de_voyelle = ""
+    if serie_de_voyelle != "":
+        list_voyelles_dans_le_mot.append(serie_de_voyelle)
+
+    return list_voyelles_dans_le_mot
+
+
+def remplace_x(mot):
+    mot = mot.replace("eaux", "o")
+    mot = mot.replace("eux", "ê")
+    mot = mot.replace("aux", "o")
+    mot = mot.replace("oix", "wä")
+    mot = mot.replace("ex", "èx")
+    mot = mot.replace("aix", "è")
+    mot = mot.replace("prix", "pri")
+    mot = mot.replace("oux", "û")
+
+    mot = mot.replace("x", "ks")
+    return mot
+
+
+def replace_s(mot):
+    mot = mot.replace("mesd", "mèd")
+    mot = mot.replace("mess", "mès")
+    if mot == 'mes':
+        mot = "mé"
+    elif mot == 'tes':
+        mot = "té"
+    elif mot == 'ses':
+        mot = "sé"
+    elif mot == 'ces':
+        mot = "sé"
+    elif mot == 'les':
+        mot = "lé"
+    elif mot == 'des':
+        mot = "dé"
+
+    mot = mot.replace("ssass", "sas")
+    mot = mot.replace("ressem", "resâ")
+    mot = mot.replace("ressen", "resâ")
+    mot = mot.replace("ess", "ès")
+    mot = mot.replace("isi", "izi")
+    mot = mot.replace("asi", "azi")
+    mot = mot.replace("osi", "ozi")
+    mot = mot.replace("iso", "izo")
+    mot = mot.replace("isa", "iza")
+
+    mot = mot.replace("ise", "ize")
+    mot = mot.replace("osa", "oza")
+    mot = mot.replace("esa", "eza")
+    mot = mot.replace("usa", "uza")
+    mot = mot.replace("use", "uze")
+    mot = mot.replace("usi", "uzi")
+    mot = mot.replace("ase", "aze")
+    mot = mot.replace("ose", "oze")
+
+    if mot[-1] == "s":
+        mot = mot[:-1]
+    mot = mot.replace("es", "ès")
+    mot = mot.replace("ss", "s")
+    return mot
+
+
+def replace_er(mot):
+    if len(mot) >= 2:
+        if "er" in mot[-2:]:
+            mot = mot[:-1]
+            mot = list(mot)
+            mot[-1] = "é"
+            mot = ''.join(mot)
+    return mot
+
+
+def transform_mot_to_phonetique(mot):
+    mot = mot.replace('û', 'u')
+    mot = mot.replace('ô', 'o')
+    mot = mot.replace('â', 'a')
+    mot = mot.replace("ê", "è")
+    mot = mot.replace("œ", "ê")
+    if mot == 'bbc':
+        mot = "barbêciû"
+    if mot == "est":
+        mot = "è"
+
+    if mot == "de":
+        mot = "dê"
+    if mot == "se":
+        mot = "sê"
+    if mot == "le":
+        mot = "lê"
+    mot = mot.replace("tech", "tèk")
+
+    mot = mot.replace("schy", "ski")
+    mot = mot.replace("sch", "ch")
+    mot = mot.replace("ch", "<")
+
+    mot = mot.replace("ccé", "ksé")
+    mot = mot.replace("cce", "kse")
+    mot = mot.replace("ccè", "ksè")
+    mot = mot.replace("cci", "ksi")
+    mot = mot.replace("cc", "k")
+
+    if 'x' in mot:
+        mot = remplace_x(mot)
+
+    mot = mot.replace("aine", 'ène')
+    mot = mot.replace("ainé", 'èné')
+    mot = mot.replace("aina", 'èna')
+    mot = mot.replace("aini", 'èni')
+
+    mot = mot.replace("ain", '1')
+
+    mot = mot.replace("ouill", 'ûy')
+    mot = mot.replace("ouil", "ûy")
+    mot = mot.replace("ou", "û")
+    mot = mot.replace("oin", 'w1')
+    mot = mot.replace("oi", 'wä')
+    mot = mot.replace('ement', 'emâ')
+    mot = mot.replace("elle", 'èle')
+
+    mot = mot.replace("euille", 'êye')
+    mot = mot.replace("ueill", 'êy')
+    mot = mot.replace("eill", 'èy')
+    mot = mot.replace("aill", 'ay')
+    mot = mot.replace("illi", "ili")
+    mot = mot.replace("ille", 'iye')
+    mot = mot.replace("illé", 'iyé')
+    mot = mot.replace("ell", 'èl')
+    mot = mot.replace("ll", 'l')
+    mot.replace("aint", "1")
+
+    mot = mot.replace('iment', 'imâ')
+    mot = mot.replace('mment', 'mâ')
+    mot = mot.replace('ément', 'émâ')
+    mot = mot.replace('aient', 'è')
+    terminaison_not_removed = True
+    if mot[-2:] == "ez" and terminaison_not_removed:
+        mot = mot[:-1]
+        mot = list(mot)
+        mot[-1] = "é"
+        mot = ''.join(mot)
+        terminaison_not_removed = False
+    if "s" in mot:
+        mot = replace_s(mot)
+
+    mot = mot.replace('ce', 'se')
+    mot = mot.replace('ci', 'si')
+    mot = mot.replace('cé', 'sé')
+    mot = mot.replace('cè', 'sè')
+    mot = mot.replace('cê', 'sê')
+
+    mot = replace_er(mot)
+
+    if mot[-3:] == "ait":
+        mot = mot[:-2]
+        mot = list(mot)
+        mot[-1] = "è"
+        mot = ''.join(mot)
+        terminaison_not_removed = False
+
+    mot = mot.replace('ai', 'è')
+
+    mot = mot.replace('eau', 'o')
+    mot = mot.replace('au', 'o')
+    mot = mot.replace('tent', 't')
+
+    if mot[-3:] == "ent" and terminaison_not_removed:
+        mot = mot[:-3]
+        terminaison_not_removed = False
+
+    if mot[-3:] == "end" and terminaison_not_removed:
+        mot = mot[:-2]
+        mot = list(mot)
+        mot[-1] = "â"
+        mot = ''.join(mot)
+        terminaison_not_removed = False
+    mot = mot.replace('enn', 'èn')
+    mot = mot.replace('erre', 'ère')
+    mot = mot.replace('err', 'èr')
+    mot = mot.replace('oeu', 'ê')
+    mot = mot.replace('eu', 'ê')
+
+    if mot[-3:] == "ant" and terminaison_not_removed:
+        mot = mot[:-2]
+        mot = list(mot)
+        mot[-1] = "â"
+        mot = ''.join(mot)
+        terminaison_not_removed = False
+
+    mot = mot.replace("ant", "ât")
+
+    mot = mot.replace('enn', 'èn')
+
+    mot = mot.replace('nn', 'n')
+    mot = mot.replace('qu', 'k')
+    mot = mot.replace('ienci', 'iâsi')
+    mot = mot.replace('ienc', 'iâs')
+    mot = mot.replace('ient', 'iât')
+    mot = mot.replace('ien', 'i1')
+
+    if mot == "un":
+        mot = "1"
+
+    if mot == "chacun":
+        mot = "chac1"
+
+    if mot[-3:] == "ont" and terminaison_not_removed:
+        mot = mot[:-2]
+        mot = list(mot)
+        mot[-1] = "ö"
+        mot = ''.join(mot)
+        terminaison_not_removed = False
+
+    mot = mot.replace("ont", "öt")
+
+    for voyelle in ["a", "e", "i", "o", "u", "è", "é", "ô", "ö", "û", "h", "y"]:
+        mot = mot.replace("on" + voyelle, "øn" + voyelle)
+
+    mot = mot.replace("on", "ö")
+    mot = mot.replace("ø", "o")
+
+    for voyelle in ["a", "e", "i", "o", "u", "è", "é", "ô", "ö", "û", "h", "y"]:
+        mot = mot.replace("an" + voyelle, "ãn" + voyelle)
+    mot = mot.replace("an", "â")
+    mot = mot.replace("ã", "a")
+
+    for voyelle in ["a", "e", "i", "o", "u", "è", "é", "ô", "ö", "û", "h", "y"]:
+        mot = mot.replace("am" + voyelle, "ãm" + voyelle)
+
+    mot = mot.replace("am", "â")
+    mot = mot.replace("ã", "a")
+
+    for voyelle in ["a", "e", "i", "o", "u", "è", "é", "ô", "ö", "û", "h", "y"]:
+        mot = mot.replace("ein" + voyelle, "*" + voyelle)
+
+    mot = mot.replace("ein", "1")
+    mot = mot.replace("*", "ein")
+
+    mot = mot.replace("mm", "m")
+    mot = mot.replace("bb", "b")
+    mot = mot.replace("rr", "r")
+    mot = mot.replace("ett", "èt")
+    mot = mot.replace("ge", "je")
+    mot = mot.replace("gé", "jé")
+    mot = mot.replace("gu", "g")
+    mot = mot.replace('cy', 'si')
+    mot = mot.replace('ce', 'se')
+    mot = mot.replace('ci', 'si')
+    mot = mot.replace('c', 'k')
+
+    for voyelle in ["a", 'â', "e", "i", "o", "u", "è", "é", "ô", "ö", "û", "h", "y"]:
+        mot = mot.replace("en" + voyelle, "*" + voyelle)
+    mot = mot.replace('en', 'â')
+    mot = mot.replace('*', 'en')
+    mot = mot.replace('tt', 't')
+    mot = mot.replace('kk', 'k')
+    mot = mot.replace('pp', 'p')
+
+    for voyelle in ["a", 'â', "e", "i", "o", "u", "è", "é", "ô", "ö", "û", "h", "y"]:
+        mot = mot.replace("im" + voyelle, "*" + voyelle)
+    mot = mot.replace('im', '1')
+    mot = mot.replace('*', 'im')
+
+    mot = mot.replace('ç', 's')
+
+    if len(mot) > 1:
+        if mot[-1] == "e":
+            mot = mot[:-1]
+
+    return mot
