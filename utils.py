@@ -18,6 +18,13 @@ def return_text_cleaned(text: str):
     text = text.replace("_", " ")
     text = text.replace(".", " ")
     text = text.replace("!", " ")
+    text = text.replace("=", " égal ")
+    text = text.replace("n°", "numéro ")
+    text = text.replace("%", " pourcent")
+    text = text.replace("€", " euros")
+    text = text.replace("ë", "è")
+    text = text.replace("ü", "u")
+    text = text.replace('\\', " ")
     text = text.replace("  ", " ")
     text = text.replace("  ", " ")
     text = text.replace("§", " ")
@@ -473,11 +480,14 @@ def transform_mot_to_phonetique(mot):
     return mot
 
 
-def find_voyelle_in_phonetique(mot):
+def find_voyelle_and_consonne_in_phonetique(mot):
     voyelles_in_word =[]
+    consonnes_in_word = []
     for lettre in mot:
         if lettre in ["a", 'â', "e", "i", "o", "u", "è", "é", "ô", "ö", "û", "ê","ä","1"]:
             voyelles_in_word.append(lettre)
+        else:
+            consonnes_in_word.append(lettre)
 
-    return voyelles_in_word
+    return voyelles_in_word, consonnes_in_word
 
