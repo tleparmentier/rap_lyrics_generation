@@ -13,6 +13,7 @@ if __name__ == "__main__":
     assert path.exists(path_to_tab_mot_phrase)
 
     tab_mot_phrase = pd.read_pickle(path_to_tab_mot_phrase)
+    print(tab_mot_phrase)
     tab_structure_phrase = []
     for phrase in tab_mot_phrase:
         if len(phrase) < 3:
@@ -55,6 +56,9 @@ if __name__ == "__main__":
                 dict_type_word_to_set[key].add(value.lower())
             else:
                 dict_type_word_to_set[key].add(value.lower())
+
+    print(dict_type_word_to_set)
+    print(dict_type_word_to_list)
 
     for ll in range(20):
         random.randint(0, structure_phrase_df.shape[0])

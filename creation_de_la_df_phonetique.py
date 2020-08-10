@@ -1,7 +1,8 @@
 from utils import return_text_cleaned, transform_mot_to_phonetique, find_voyelle_and_consonne_in_phonetique
 import os
 import pandas as pd
-import numpy as np
+
+
 path_texts = './french_lyrics'
 text_all_rappeur = ""
 for file_name_text_rap in os.listdir(path_texts):
@@ -121,38 +122,3 @@ phonetique_df.to_pickle("./pickles_csv/phonetique_df.pkl")
 print(phonetique_df)
 print(phonetique_df.shape)
 print(len(set_mot_unique))
-
-
-
-
-
-
-
-
-
-# dict_mot_frequence_dapparition = {}
-# for mot in list_mot:
-#     if mot not in dict_mot_frequence_dapparition.keys():
-#         dict_mot_frequence_dapparition[mot] = 1
-#     else:
-#         dict_mot_frequence_dapparition[mot] += 1
-#
-#
-#
-#
-#
-#
-# #print(dict_mot_frequence_dapparition)
-#
-#
-#
-# max_syll = 0
-# for key, values in dict_mot_phonetique.items():
-#     tab_voyelles, tab_consonnes = find_voyelle_and_consonne_in_phonetique(values)
-#     nombre_syllabes = len(values)
-#     #print(nombre_syllabes)
-#     if max_syll < nombre_syllabes:
-#         max_syll = nombre_syllabes
-#         print(key, values)
-
-#print(key, ":", values, ":",)
