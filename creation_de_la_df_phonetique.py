@@ -116,9 +116,10 @@ lettre_df = pd.DataFrame(tab_all_lettre,  columns=tab_columns_lettre)
 nb_phonetique_df = pd.DataFrame(tab_all_nb_phonetique, columns=tab_columns_is_phonetique)
 
 
-phonetique_df = pd.concat([voyelle_df, consonne_df, lettre_df, nb_phonetique_df], axis=1)
+phonetique_df = pd.concat([mot_df, voyelle_df, consonne_df, lettre_df, nb_phonetique_df], axis=1)
 
 phonetique_df.to_pickle("./pickles_csv/phonetique_df.pkl")
+
 print(phonetique_df)
 print(phonetique_df.shape)
 print(len(set_mot_unique))
