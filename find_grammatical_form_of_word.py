@@ -18,7 +18,7 @@ def tab_of_phonetique_for_each_sentence_return_phonetique(sentences):
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         print('Erreur : Arguments invalides : ')
-        print('\t python find_grammatical_form_of_word.py nekfeu.txt')
+        print('\t python find_grammatical_form_of_word.py rappeur.txt')
         sys.exit(1)
     file_name_txt = sys.argv[1]
     file_name = file_name_txt.split(".txt")[0]

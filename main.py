@@ -3,9 +3,7 @@ import os
 import pandas as pd
 import random
 
-general_df = pd.read_pickle("./pickles_csv/phonetique_type_of_word_nb_syllabe_df.pkl")
-structure_de_phrase = pd.read_pickle("./pickles_csv/dataframe_structure_de_phrases.pkl")
-
+NOMBRE_DE_LETTRE = 15
 
 
 def return_structure_de_phrase(structure_de_phrase_df, nombre_de_mot=None):
@@ -25,11 +23,6 @@ def return_structure_de_phrase(structure_de_phrase_df, nombre_de_mot=None):
             tab_type_mot.append(type_mot)
 
     return tab_type_mot
-
-
-list_structure_de_phrase = return_structure_de_phrase(structure_de_phrase)
-
-list_structure_de_phrase_deuxieme = return_structure_de_phrase(structure_de_phrase)
 
 
 def retourne_list_frequence_des_mots(type_mot_df, type_mot):
@@ -57,9 +50,6 @@ def retourner_phrases_en_fonction_de_la_structure(list_type_mot, general_df):
     return list_mot
 
 
-list_mot_premier_phrase = retourner_phrases_en_fonction_de_la_structure(list_structure_de_phrase, general_df)
-
-
 def mettre_deux_tables_a_la_même_longueur(list_mot_phrase, list_structure_de_phrase):
     if len(list_mot_phrase) == len(list_structure_de_phrase):
         return list_mot_phrase, list_structure_de_phrase
@@ -83,7 +73,7 @@ def retourne_mot_qui_rime(df, mot_qui_rime, type_mot, nombre_de_rime=None):
     df_qui_rime = df_qui_rime[df_qui_rime["mot"] != mot_qui_rime]
 
     if nb_syllabes >= 1:
-        for numero_de_lettre in reversed(range(1, 15)):
+        for numero_de_lettre in reversed(range(1, NOMBRE_DE_LETTRE)):
             lettre_qui_rime = df[df["mot"] == mot_qui_rime]['lettre_{}'.format(numero_de_lettre)].values[0]
             df_qui_rime = df_qui_rime[df_qui_rime['lettre_{}'.format(numero_de_lettre)] == lettre_qui_rime]
 
@@ -91,7 +81,7 @@ def retourne_mot_qui_rime(df, mot_qui_rime, type_mot, nombre_de_rime=None):
                 list_frequence_type_mot = retourne_list_frequence_des_mots(df, type_mot)
                 nouveau_mot = retourne_random_choice_from_list(list_frequence_type_mot)
                 return nouveau_mot
-            if df_qui_rime.shape[0] < 10:
+            if df_qui_rime.shape[0] < 100:
                 list_frequence_type_mot = retourne_list_frequence_des_mots(df_qui_rime, type_mot)
                 return retourne_random_choice_from_list(list_frequence_type_mot)
 
@@ -128,17 +118,26 @@ def rime_phrase(list_mot_phrase, list_structure_de_phrase, general_df):
     return list_mot
 
 
-for i in range(50):
+if __name__ == "__main__":
 
-    if i % 2 == 0:
-        list_structure_de_phrase = return_structure_de_phrase(structure_de_phrase)
-        list_mot_premier_phrase = retourner_phrases_en_fonction_de_la_structure(list_structure_de_phrase, general_df)
-        print(" ".join(list_mot_premier_phrase))
-    else:
-        list_structure_de_phrase_deuxieme = return_structure_de_phrase(structure_de_phrase)
+    general_df = pd.read_pickle("./pickles_csv/phonetique_type_of_word_nb_syllabe_df_rappeur.pkl")
+    structure_de_phrase = pd.read_pickle("./pickles_csv/dataframe_structure_de_phrases_rappeur.pkl")
+    NOMBRE_DE_LIGNE_A_GENERER = 20
 
-        list_mot_deuxieme_phrase = rime_phrase(list_mot_premier_phrase, list_structure_de_phrase_deuxieme, general_df)
-        print(" ".join(list_mot_deuxieme_phrase))
+    for numero_ligne in range(NOMBRE_DE_LIGNE_A_GENERER):
+
+        if numero_ligne % 2 == 0:
+            list_structure_de_phrase = return_structure_de_phrase(structure_de_phrase)
+            list_mot_premier_phrase = retourner_phrases_en_fonction_de_la_structure(list_structure_de_phrase,
+                                                                                    general_df)
+            print(" ".join(list_mot_premier_phrase))
+        else:
+            list_structure_de_phrase_deuxieme = return_structure_de_phrase(structure_de_phrase)
+
+            list_mot_deuxieme_phrase = rime_phrase(list_mot_premier_phrase, list_structure_de_phrase_deuxieme,
+                                                   general_df)
+            print(" ".join(list_mot_deuxieme_phrase))
+
 
 # retourne_mot_qui_rime(df=general_df, mot_qui_rime="abaisse", type_mot="VERB")
 

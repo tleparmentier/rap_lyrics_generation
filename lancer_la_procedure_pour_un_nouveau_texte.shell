@@ -1,0 +1,26 @@
+if [ $# -eq 0 ]
+  then
+    echo "Erreur: Pas d'argument dans le script, essayez:"
+    echo "bash lancer_la_procedure_pour_un_nouveau_texte.shell rappeur.txt"
+fi
+echo "creation de la df de phonétique"
+python creation_de_la_df_phonetique.py $1
+echo "creation de la df de phonétique terminé"
+
+echo "tag de chaque mot par pronom/nom/adjectif..."
+python find_grammatical_form_of_word.py $1
+echo "fin de la tâche de tag"
+
+echo "creation de la dataframe de structure de phrase"
+python create_structure_de_phrase_df.py $1
+echo "fin de tâche de creation de la dataframe de structure de phrase"
+
+echo "creation de la df du type des mots"
+python create_df_of_word_type.py $1
+echo "fin de la creation de la df du type de mots"
+
+echo "ajout du compteur de syllabe"
+python compteur_de_syllabe.py $1
+echo "fin de l'ajout du compteur de syllabe"
+
+echo "fin"
